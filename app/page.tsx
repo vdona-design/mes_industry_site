@@ -52,14 +52,14 @@ export default function App() {
   };
 
   // Add Log helper
-  const addLog = (type, msg) => {
+const addLog = (type: string, msg: string) => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
     setSimulationLogs(prev => [{ ts: timeStr, type, msg }, ...prev.slice(0, 7)]);
   };
 
   // Action: Set Recipe Command
-  const handleSetRecipe = (recipeName) => {
+  const handleSetRecipe = (recipeName: string) => {
     addLog('info', `Richiesta di invio Ricetta "${recipeName}" avviata da Frontend Angular...`);
     
     if (networkState === 'OFFLINE') {
@@ -808,7 +808,7 @@ export default function App() {
 }
 
 // Simple fallback SVG components for the project's layout
-function MapPinIcon(props) {
+function MapPinIcon(props: any) {
   return (
     <svg
       {...props}
