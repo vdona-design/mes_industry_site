@@ -1,58 +1,70 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Activity, 
   Cpu, 
-  Layers, 
   Shield, 
   Zap, 
   Database, 
-  Network, 
   LayoutDashboard, 
   Globe, 
   Sliders, 
   AlertTriangle, 
-  CheckCircle2, 
   RefreshCw, 
   TrendingUp, 
   Coins, 
   Lock, 
-  Unlock, 
   Wifi, 
   WifiOff, 
   Building,
   ArrowRight,
-  Eye,
   Check,
-  Server,
   FileText
 } from 'lucide-react';
 
+// 1. DEFINIZIONE DEI TIPI PER TYPESCRIPT
+interface SiteInfo {
+  name: string;
+  oee: string;
+  status: string;
+  lines: number;
+  runningMachines: number;
+  network: string;
+}
+
+interface LogItem {
+  ts: string;
+  type: string;
+  msg: string;
+}
+
 export default function App() {
   // Navigation State
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState<string>('overview');
   
   // Interactive Simulation States
-  const [machineState, setMachineState] = useState('RUNNING'); // RUNNING or IDLE
-  const [networkState, setNetworkState] = useState('ONLINE'); // ONLINE or OFFLINE
-  const [simulationLogs, setSimulationLogs] = useState([
+  const [machineState, setMachineState] = useState<string>('RUNNING'); // RUNNING or IDLE
+  const [networkState, setNetworkState] = useState<string>('ONLINE'); // ONLINE or OFFLINE
+  const [simulationLogs, setSimulationLogs] = useState<LogItem[]>([
     { ts: '11:10:02', type: 'info', msg: 'Sistema avviato. Connessione stabilita con il Cloud Hub.' },
     { ts: '11:10:05', type: 'success', msg: 'MES Grabber: Connesso con successo al PLC Macchina M01 (Protocollo OPC-UA).' },
     { ts: '11:10:15', type: 'info', msg: 'Heartbeat Watchdog attivo (Intervallo 30s).' }
   ]);
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [pendingLocalRecords, setPendingLocalRecords] = useState(0);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [pendingLocalRecords, setPendingLocalRecords] = useState<number>(0);
 
   // Multi-Site Supervisor Context Switcher
-  const [selectedSite, setSelectedSite] = useState('ALL'); // ALL, MILANO, TORINO, BOLOGNA
-  const sitesData = {
+  const [selectedSite, setSelectedSite] = useState<string>('ALL'); // ALL, MILANO, TORINO, BOLOGNA
+  
+  // Mappatura con indice stringa esplicito per evitare errori di indicizzazione in TS
+  const sitesData: Record<string, SiteInfo> = {
     MILANO: { name: 'Sito Milano (IT-042)', oee: '84.5%', status: 'In Produzione', lines: 3, runningMachines: 8, network: 'ONLINE' },
     TORINO: { name: 'Sito Torino (IT-089)', oee: '79.2%', status: 'In Manutenzione', lines: 2, runningMachines: 4, network: 'ONLINE' },
     BOLOGNA: { name: 'Sito Bologna (IT-112)', oee: '91.1%', status: 'Ottimale', lines: 4, runningMachines: 11, network: 'OFFLINE' }
   };
 
   // Add Log helper
-const addLog = (type: string, msg: string) => {
+  const addLog = (type: string, msg: string) => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
     setSimulationLogs(prev => [{ ts: timeStr, type, msg }, ...prev.slice(0, 7)]);
@@ -63,7 +75,6 @@ const addLog = (type: string, msg: string) => {
     addLog('info', `Richiesta di invio Ricetta "${recipeName}" avviata da Frontend Angular...`);
     
     if (networkState === 'OFFLINE') {
-      // Offline scenario
       setPendingLocalRecords(prev => prev + 1);
       addLog('warn', 'OFFLINE DETECTED: Impossibile raggiungere il Cloud. Nginx reindirizza la scrittura sul Database Locale (Edge).');
       addLog('success', 'Continuity OK: I dati sono salvati localmente. Stato UI: "Icona Cloud Rossa - Sync in sospeso".');
@@ -71,16 +82,14 @@ const addLog = (type: string, msg: string) => {
     }
 
     if (machineState === 'RUNNING') {
-      // Operational Lock error
       addLog('error', 'HTTP 409 CONFLICT: Operational Lock Attivo! Impossibile modificare parametri o inviare ricette mentre la macchina è in RUNNING.');
       addLog('info', 'Sicurezza Garantita: La verità operativa risiede nel sito fisico fino a conclusione ciclo.');
     } else {
-      // Success
       addLog('success', `HTTP 201 Created: Ricetta "${recipeName}" validata e inviata al MES Grabber. PLC aggiornato.`);
     }
   };
 
-  // Action: Declare New Untracked Part (Generates anomaly placeholder)
+  // Action: Declare New Untracked Part
   const handleDeclarePart = () => {
     addLog('info', 'Rilevamento nuovo pezzo con codice anagrafico sconosciuto...');
     addLog('warn', 'Auto-Generation: MES Grabber ha creato un record Placeholder provvisorio.');
@@ -165,10 +174,9 @@ const addLog = (type: string, msg: string) => {
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* SECTION 1: OVERVIEW & VALUE PROPOSITION (HERO) */}
+        {/* SECTION 1: OVERVIEW */}
         {activeTab === 'overview' && (
-          <div className="space-y-16 animate-fadeIn">
-            {/* Hero Banner */}
+          <div className="space-y-16">
             <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 p-8 sm:p-16">
               <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
@@ -200,7 +208,7 @@ const addLog = (type: string, msg: string) => {
               </div>
             </div>
 
-            {/* Key Business Pillars (For the CEO) */}
+            {/* Key Business Pillars */}
             <div className="space-y-6">
               <div className="text-center max-w-2xl mx-auto space-y-2">
                 <h2 className="text-3xl font-bold">I 4 Pilastri del Ritorno sull'Investimento (ROI)</h2>
@@ -250,7 +258,7 @@ const addLog = (type: string, msg: string) => {
               </div>
             </div>
 
-            {/* General Flow Diagram for Business */}
+            {/* General Flow Diagram */}
             <div className="bg-slate-900/30 border border-slate-800 rounded-3xl p-8 space-y-8">
               <div className="max-w-2xl">
                 <h3 className="text-2xl font-bold text-white">Flusso Semplificato delle Operazioni</h3>
@@ -258,10 +266,8 @@ const addLog = (type: string, msg: string) => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 relative">
-                {/* Connector lines for lg screens */}
                 <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500/20 via-emerald-500/20 to-indigo-500/20 -translate-y-1/2 z-0"></div>
                 
-                {/* Step 1 */}
                 <div className="relative bg-slate-900 border border-slate-800 p-6 rounded-xl z-10 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-indigo-400 font-bold">FASE 1</span>
@@ -271,7 +277,6 @@ const addLog = (type: string, msg: string) => {
                   <p className="text-xs text-slate-400 leading-relaxed">Il <strong>MES Grabber</strong> si collega a PLC e CNC leggendo i registri macchina ad altissima frequenza.</p>
                 </div>
 
-                {/* Step 2 */}
                 <div className="relative bg-slate-900 border border-slate-800 p-6 rounded-xl z-10 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-emerald-400 font-bold">FASE 2</span>
@@ -281,7 +286,6 @@ const addLog = (type: string, msg: string) => {
                   <p className="text-xs text-slate-400 leading-relaxed">L'<strong>API Gateway (Nginx)</strong> verifica lo stato di Lock ed elabora la transazione garantendo la sicurezza fisica.</p>
                 </div>
 
-                {/* Step 3 */}
                 <div className="relative bg-slate-900 border border-slate-800 p-6 rounded-xl z-10 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-amber-400 font-bold">FASE 3</span>
@@ -291,7 +295,6 @@ const addLog = (type: string, msg: string) => {
                   <p className="text-xs text-slate-400 leading-relaxed">Persistenza sul database locale di sito per latenza zero e sincronizzazione asincrona protetta verso il Cloud Hub.</p>
                 </div>
 
-                {/* Step 4 */}
                 <div className="relative bg-slate-900 border border-slate-800 p-6 rounded-xl z-10 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-cyan-400 font-bold">FASE 4</span>
@@ -305,9 +308,9 @@ const addLog = (type: string, msg: string) => {
           </div>
         )}
 
-        {/* SECTION 2: SYSTEM ARCHITECTURE (DETAILED & INTERACTIVE) */}
+        {/* SECTION 2: ARCHITECTURE */}
         {activeTab === 'architecture' && (
-          <div className="space-y-12 animate-fadeIn">
+          <div className="space-y-12">
             <div className="max-w-3xl space-y-4">
               <h2 className="text-3xl font-extrabold text-white">Architettura Ibrida ad Alta Resilienza</h2>
               <p className="text-slate-400">
@@ -315,7 +318,6 @@ const addLog = (type: string, msg: string) => {
               </p>
             </div>
 
-            {/* The 4 Core Pillars of Technical Stack */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-slate-900/40 border border-slate-800 p-8 rounded-2xl space-y-4">
                 <div className="flex items-center space-x-3">
@@ -374,11 +376,11 @@ const addLog = (type: string, msg: string) => {
                 <ul className="text-xs text-slate-400 space-y-2 border-t border-slate-800/80 pt-3">
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Modello Site-Based:</strong> Database normalizzato per anagrafiche (Clienti, Linee, Macchine, Ricette, Prodotti) partizionato rigidamente per <code>Tenant_ID</code>.</span>
+                    <span><strong>Modello Site-Based:</strong> Database normalizzato per anagrafiche partizionato rigidamente per <code>Tenant_ID</code>.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Purging Automatico:</strong> I dati storici di telemetria superiori a 6 mesi vengono spostati automaticamente in "Cold Storage" preservando le performance del DB operativo.</span>
+                    <span><strong>Purging Automatico:</strong> I dati storici superiori a 6 mesi vengono spostati automaticamente in "Cold Storage" preservando le performance del DB principale.</span>
                   </li>
                 </ul>
               </div>
@@ -400,13 +402,12 @@ const addLog = (type: string, msg: string) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
-                    <span><strong>Gestione Errori Standardizzata:</strong> Un Global Interceptor intercetta i codici di errore HTTP specifici (409 per Lock, 503 per Edge offline) mostrando banner esplicativi all'operatore.</span>
+                    <span><strong>Gestione Errori Standardizzata:</strong> Un Global Interceptor intercetta i codici di errore HTTP specifici mostrando banner esplicativi all'operatore.</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Standardizzazione Codici Errore */}
             <div className="bg-slate-900/30 border border-slate-800 rounded-3xl p-8 space-y-6">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-amber-500" /> Standardizzazione degli Errori di Rete e di Business
@@ -422,20 +423,20 @@ const addLog = (type: string, msg: string) => {
                 </div>
                 <div className="bg-slate-950 p-4 rounded-xl border border-amber-500/15 space-y-2">
                   <span className="text-amber-400 font-bold font-mono">4xx - Errori Client / Validazione</span>
-                  <p className="text-slate-400"><strong>400 Bad Request:</strong> Parametri ricetta non ammissibili.<br /><strong>409 Conflict:</strong> Tentativo di modifica parametri su macchina in RUNNING (Blocco di sicurezza).</p>
+                  <p className="text-slate-400"><strong>400 Bad Request:</strong> Payload non valido.<br /><strong>409 Conflict:</strong> Tentativo di modifica parametri su macchina in RUNNING (Blocco di sicurezza).</p>
                 </div>
                 <div className="bg-slate-950 p-4 rounded-xl border border-red-500/15 space-y-2">
                   <span className="text-red-400 font-bold font-mono">5xx - Errori Infrastruttura Edge</span>
-                  <p className="text-slate-400"><strong>502 Bad Gateway:</strong> Gateway e nodo locale non comunicano.<br /><strong>503 Service Unavailable:</strong> Il database di fabbrica è offline o in manutenzione.</p>
+                  <p className="text-slate-400"><strong>502 Bad Gateway:</strong> Il Gateway e il nodo locale non comunicano.<br /><strong>503 Service Unavailable:</strong> Il database locale di sito è offline.</p>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* SECTION 3: SANDBOX OPERATIVO (INTERACTIVE LIVE SIMULATION) */}
+        {/* SECTION 3: SANDBOX */}
         {activeTab === 'sandbox' && (
-          <div className="space-y-12 animate-fadeIn">
+          <div className="space-y-12">
             <div className="max-w-3xl space-y-4">
               <h2 className="text-3xl font-extrabold text-white">Sandbox Operativo Interattivo</h2>
               <p className="text-slate-400">
@@ -443,16 +444,12 @@ const addLog = (type: string, msg: string) => {
               </p>
             </div>
 
-            {/* Simulation Interface */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
-              {/* Left column: Controllers */}
               <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6">
                 <h3 className="text-lg font-bold text-white flex items-center gap-2">
                   <Sliders className="h-5 w-5 text-indigo-400" /> Pannello di Controllo
                 </h3>
                 
-                {/* Controller 1: Machine State */}
                 <div className="space-y-2">
                   <label className="text-xs text-slate-400 font-medium block">1. STATO DELLA MACCHINA (PLC)</label>
                   <div className="grid grid-cols-2 gap-2">
@@ -485,7 +482,6 @@ const addLog = (type: string, msg: string) => {
                   </div>
                 </div>
 
-                {/* Controller 2: Network State */}
                 <div className="space-y-2">
                   <label className="text-xs text-slate-400 font-medium block">2. CONNETTIVITÀ CLOUD (NGINX PROXY)</label>
                   <button 
@@ -502,13 +498,12 @@ const addLog = (type: string, msg: string) => {
                       </>
                     ) : (
                       <>
-                        <WifiOff className="h-4 w-4 text-red-400" /> OFFLINE (Modalità Edge Only)
+                        <WifiOff className="h-4 w-4 text-red-400" /> OFFLINE (Edge Only)
                       </>
                     )}
                   </button>
                 </div>
 
-                {/* Simulated Commands */}
                 <div className="space-y-3 pt-4 border-t border-slate-800">
                   <label className="text-xs text-slate-400 font-medium block">3. AZIONI OPERATORI (INTERFACCIA ANGULAR)</label>
                   
@@ -529,14 +524,13 @@ const addLog = (type: string, msg: string) => {
                   </button>
                 </div>
 
-                {/* Local Sync Indicator */}
                 {pendingLocalRecords > 0 && (
-                  <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl space-y-2 animate-bounce">
+                  <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-amber-400">Record nel Buffer Locale</span>
+                      <span className="text-xs font-bold text-amber-400">Buffer Locale</span>
                       <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 font-mono text-[10px] rounded">{pendingLocalRecords}</span>
                     </div>
-                    <p className="text-[10px] text-slate-400">Dati salvati in locale nel database di sito. In attesa di sincronizzazione appena la rete tornerà ONLINE.</p>
+                    <p className="text-[10px] text-slate-400">Dati salvati localmente. In attesa di sincronizzazione appena la rete tornerà ONLINE.</p>
                     {networkState === 'ONLINE' && (
                       <button 
                         onClick={triggerSync}
@@ -550,7 +544,6 @@ const addLog = (type: string, msg: string) => {
                 )}
               </div>
 
-              {/* Center column: Visual Machine Telemetry Mock */}
               <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -564,29 +557,25 @@ const addLog = (type: string, msg: string) => {
                     </span>
                   </div>
 
-                  {/* Machine Body */}
                   <div className="p-8 bg-slate-950 rounded-2xl border border-slate-800/80 flex flex-col items-center justify-center relative overflow-hidden">
-                    {/* Pulsing indicator light */}
                     <div className={`absolute top-4 right-4 w-3.5 h-3.5 rounded-full ${
                       machineState === 'RUNNING' ? 'bg-red-500 animate-ping' : 'bg-amber-500'
                     }`}></div>
 
-                    {/* SVG representation of Machine */}
                     <svg className={`w-32 h-32 text-slate-700 transition ${machineState === 'RUNNING' ? 'text-indigo-400' : 'text-slate-600'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.68-.34-1.44-.08-1.78.6l-1.11 2.22c-.34.68-.08 1.44.6 1.78l1.11.56c.68.34 1.44.08 1.78-.6l1.11-2.22c.34-.68.08-1.44-.6-1.78l-1.11-.56zM4.5 10.5h15M9 3v4.5M15 3v4.5M12 12v3M12 15h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
 
                     <div className="mt-4 text-center">
                       <span className="text-slate-500 text-xs font-mono">PLC ID: IT-042-M01</span>
-                      <p className="text-lg font-bold text-white">Centro di Lavoro Verticale 5 Assi</p>
+                      <p className="text-lg font-bold text-white">Centro di Lavoro 5 Assi</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Dashboard Badge representing WebSocket certified connection */}
                 <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Badge di Controllo Connessione:</span>
+                    <span className="text-slate-400">Controllo Connessione:</span>
                     <span className={`inline-flex items-center font-bold font-mono ${
                       networkState === 'ONLINE' ? 'text-emerald-400' : 'text-red-400'
                     }`}>
@@ -597,12 +586,11 @@ const addLog = (type: string, msg: string) => {
                     </span>
                   </div>
                   <p className="text-[10px] text-slate-500 leading-relaxed">
-                    Come richiesto dalla normativa 4.0, se la connessione si interrompe per più di 10 secondi, l'interfaccia Angular evidenzia visivamente l'interruzione della catena di interconnessione.
+                    Come richiesto dalla normativa 4.0, se la connessione si interrompe per più di 10 secondi, l'interfaccia Angular evidenzia visivamente l'interruzione.
                   </p>
                 </div>
               </div>
 
-              {/* Right column: System Logs Console */}
               <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
                 <div>
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -636,17 +624,16 @@ const addLog = (type: string, msg: string) => {
           </div>
         )}
 
-        {/* SECTION 4: MULTI-SITE CONTROL PANEL */}
+        {/* SECTION 4: MULTI-SITE */}
         {activeTab === 'multisite' && (
-          <div className="space-y-12 animate-fadeIn">
+          <div className="space-y-12">
             <div className="max-w-3xl space-y-4">
               <h2 className="text-3xl font-extrabold text-white">Governance Multi-Sito per Amministratori di Gruppo</h2>
               <p className="text-slate-400">
-                La dashboard di NexusMES supporta ruoli di supervisione di gruppo. Il management può effettuare uno **Switch di Contesto** immediato per visualizzare o comparare dashboard di stabilimenti differenti o analizzare metriche aggregate.
+                La dashboard supporta ruoli di supervisione globale. Il management può effettuare uno **Switch di Contesto** immediato per visualizzare o comparare dashboard di stabilimenti differenti.
               </p>
             </div>
 
-            {/* Context Switcher Buttons */}
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-wrap gap-2">
               <button 
                 onClick={() => setSelectedSite('ALL')}
@@ -667,21 +654,20 @@ const addLog = (type: string, msg: string) => {
                     selectedSite === key 
                       ? 'bg-emerald-600 text-white' 
                       : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-white'
-                  }`}
+                }`}
                 >
-                  <MapPinIcon className="h-4 w-4" /> {sitesData[key].name}
+                  <Globe className="h-4 w-4" /> {sitesData[key].name}
                 </button>
               ))}
             </div>
 
-            {/* Simulated Multi-Tenant dashboard View */}
             <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-white">
-                    {selectedSite === 'ALL' ? 'Analisi Aggregata di Gruppo' : `Monitor di Stabilimento: ${sitesData[selectedSite].name}`}
+                    {selectedSite === 'ALL' ? 'Analisi Aggregata di Gruppo' : `Monitor: ${sitesData[selectedSite].name}`}
                   </h3>
-                  <p className="text-xs text-slate-500">I dati sono filtrati dinamicamente via JWT in base al perimetro autorizzativo di sessione.</p>
+                  <p className="text-xs text-slate-500">I dati sono filtrati dinamicamente via JWT in base al perimetro autorizzativo.</p>
                 </div>
                 
                 <span className="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-xs font-mono rounded-lg border border-indigo-500/20">
@@ -689,10 +675,9 @@ const addLog = (type: string, msg: string) => {
                 </span>
               </div>
 
-              {/* KPIs Display */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-2">
-                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">OEE Medio di Gruppo</span>
+                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">OEE Medio</span>
                   <p className="text-3xl font-extrabold text-emerald-400">
                     {selectedSite === 'ALL' ? '84.9%' : sitesData[selectedSite].oee}
                   </p>
@@ -702,11 +687,11 @@ const addLog = (type: string, msg: string) => {
                 </div>
 
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-2">
-                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Linee di Produzione</span>
+                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Linee</span>
                   <p className="text-3xl font-extrabold text-white">
                     {selectedSite === 'ALL' ? '9 Linee' : `${sitesData[selectedSite].lines} Linee`}
                   </p>
-                  <span className="text-[10px] text-slate-500">Distribuzione geografica controllata</span>
+                  <span className="text-[10px] text-slate-500">Distribuzione controllata</span>
                 </div>
 
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-2">
@@ -714,13 +699,13 @@ const addLog = (type: string, msg: string) => {
                   <p className="text-3xl font-extrabold text-white">
                     {selectedSite === 'ALL' ? '23 Macchine' : `${sitesData[selectedSite].runningMachines} Macchine`}
                   </p>
-                  <span className="text-[10px] text-emerald-500">Watchdog Heartbeat attivo (30s)</span>
+                  <span className="text-[10px] text-emerald-500">Watchdog attivo (30s)</span>
                 </div>
 
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-2">
-                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Stato Infrastruttura</span>
+                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Infrastruttura</span>
                   <p className="text-3xl font-extrabold text-indigo-400">
-                    {selectedSite === 'ALL' ? 'Ibrida' : 'Edge Attivo'}
+                    Ibrida
                   </p>
                   <span className={`text-[10px] font-bold ${
                     selectedSite === 'ALL' || sitesData[selectedSite].network === 'ONLINE' ? 'text-emerald-500' : 'text-red-400'
@@ -730,10 +715,9 @@ const addLog = (type: string, msg: string) => {
                 </div>
               </div>
 
-              {/* Benchmarking Table for CEO */}
               {selectedSite === 'ALL' && (
                 <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-slate-300">Confronto Performance di Stabilimento (Benchmarking)</h4>
+                  <h4 className="text-sm font-bold text-slate-300">Benchmarking di Stabilimento</h4>
                   <div className="overflow-x-auto rounded-xl border border-slate-800">
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
@@ -743,7 +727,7 @@ const addLog = (type: string, msg: string) => {
                           <th className="p-4 text-center">OEE Attuale</th>
                           <th className="p-4 text-center">Linee Attive</th>
                           <th className="p-4">Stato Connessione</th>
-                          <th className="p-4">Azioni Consentite</th>
+                          <th className="p-4">Azione</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-800/80 bg-slate-900/20">
@@ -765,7 +749,7 @@ const addLog = (type: string, msg: string) => {
                                 onClick={() => setSelectedSite(key)}
                                 className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-md transition font-bold"
                               >
-                                Switch Contesto
+                                Switch
                               </button>
                             </td>
                           </tr>
@@ -780,7 +764,6 @@ const addLog = (type: string, msg: string) => {
         )}
       </main>
 
-      {/* Footer Section */}
       <footer className="bg-slate-950 border-t border-slate-800 mt-20 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
@@ -792,35 +775,9 @@ const addLog = (type: string, msg: string) => {
               <p className="text-xs text-slate-500">Piattaforma di Controllo Industriale Integrata 4.0</p>
             </div>
           </div>
-
-          <div className="flex space-x-6 text-xs text-slate-500">
-            <a href="#" className="hover:text-white transition">Integrità Dati</a>
-            <a href="#" className="hover:text-white transition">Standardizzazione HTTP</a>
-            <a href="#" className="hover:text-white transition">Politiche Multi-Tenant</a>
-            <a href="#" className="hover:text-white transition">Conformità GDPR</a>
-          </div>
-
           <p className="text-xs text-slate-600">&copy; 2026 NexusMES. Tutti i diritti riservati.</p>
         </div>
       </footer>
     </div>
-  );
-}
-
-// Simple fallback SVG components for the project's layout
-function MapPinIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
   );
 }
