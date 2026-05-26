@@ -19,10 +19,12 @@ import {
   Building,
   ArrowRight,
   Check,
-  FileText
+  FileText,
+  Menu,
+  X
 } from 'lucide-react';
 
-// 1. DEFINIZIONE DEI TIPI PER TYPESCRIPT
+// DEFINIZIONE DEI TIPI PER TYPESCRIPT
 interface SiteInfo {
   name: string;
   oee: string;
@@ -41,10 +43,11 @@ interface LogItem {
 export default function App() {
   // Navigation State
   const [activeTab, setActiveTab] = useState<string>('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   
   // Interactive Simulation States
-  const [machineState, setMachineState] = useState<string>('RUNNING'); // RUNNING or IDLE
-  const [networkState, setNetworkState] = useState<string>('ONLINE'); // ONLINE or OFFLINE
+  const [machineState, setMachineState] = useState<string>('RUNNING');
+  const [networkState, setNetworkState] = useState<string>('ONLINE');
   const [simulationLogs, setSimulationLogs] = useState<LogItem[]>([
     { ts: '11:10:02', type: 'info', msg: 'Sistema avviato. Connessione stabilita con il Cloud Hub.' },
     { ts: '11:10:05', type: 'success', msg: 'MES Grabber: Connesso con successo al PLC Macchina M01 (Protocollo OPC-UA).' },
@@ -54,23 +57,20 @@ export default function App() {
   const [pendingLocalRecords, setPendingLocalRecords] = useState<number>(0);
 
   // Multi-Site Supervisor Context Switcher
-  const [selectedSite, setSelectedSite] = useState<string>('ALL'); // ALL, MILANO, TORINO, BOLOGNA
+  const [selectedSite, setSelectedSite] = useState<string>('ALL');
   
-  // Mappatura con indice stringa esplicito per evitare errori di indicizzazione in TS
   const sitesData: Record<string, SiteInfo> = {
     MILANO: { name: 'Sito Milano (IT-042)', oee: '84.5%', status: 'In Produzione', lines: 3, runningMachines: 8, network: 'ONLINE' },
     TORINO: { name: 'Sito Torino (IT-089)', oee: '79.2%', status: 'In Manutenzione', lines: 2, runningMachines: 4, network: 'ONLINE' },
     BOLOGNA: { name: 'Sito Bologna (IT-112)', oee: '91.1%', status: 'Ottimale', lines: 4, runningMachines: 11, network: 'OFFLINE' }
   };
 
-  // Add Log helper
   const addLog = (type: string, msg: string) => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
     setSimulationLogs(prev => [{ ts: timeStr, type, msg }, ...prev.slice(0, 7)]);
   };
 
-  // Action: Set Recipe Command
   const handleSetRecipe = (recipeName: string) => {
     addLog('info', `Richiesta di invio Ricetta "${recipeName}" avviata da Frontend Angular...`);
     
@@ -89,14 +89,12 @@ export default function App() {
     }
   };
 
-  // Action: Declare New Untracked Part
   const handleDeclarePart = () => {
     addLog('info', 'Rilevamento nuovo pezzo con codice anagrafico sconosciuto...');
     addLog('warn', 'Auto-Generation: MES Grabber ha creato un record Placeholder provvisorio.');
     addLog('info', 'Integrità Dati: Record inserito con "is_validated = false" (Stato Pending in UI).');
   };
 
-  // Action: Toggle Network
   const handleNetworkToggle = () => {
     const newState = networkState === 'ONLINE' ? 'OFFLINE' : 'ONLINE';
     setNetworkState(newState);
@@ -108,7 +106,6 @@ export default function App() {
     }
   };
 
-  // Trigger sync simulation
   const triggerSync = () => {
     if (pendingLocalRecords === 0) {
       addLog('info', 'Rete online. Nessun dato locale in attesa di sincronizzazione.');
@@ -140,6 +137,7 @@ export default function App() {
             </div>
           </div>
           
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-1">
             {['overview', 'architecture', 'sandbox', 'multisite'].map((tab) => (
               <button
@@ -151,24 +149,70 @@ export default function App() {
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                {tab === 'overview' ? 'Visione d\'Insieme' : tab === 'architecture' ? 'Architettura 4.0' : tab === 'sandbox' ? 'Simulatore Live' : 'Governance Multi-Sito'}
+                {tab === 'overview' ? "Visione d'Insieme" : tab === 'architecture' ? 'Architettura 4.0' : tab === 'sandbox' ? 'Simulatore Live' : 'Governance Multi-Sito'}
               </button>
             ))}
           </nav>
 
+          {/* Right Actions & Hamburger Button */}
           <div className="flex items-center space-x-4">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="hidden lg:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <span className="w-1.5 h-1.5 mr-1.5 bg-emerald-400 rounded-full animate-ping"></span>
-              Pronto per l'Industria 4.0
+              Pronto 4.0
             </span>
             <button 
-              onClick={() => setActiveTab('sandbox')}
-              className="bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-md shadow-indigo-600/20 flex items-center gap-2"
+              onClick={() => {
+                setActiveTab('sandbox');
+                setIsMobileMenuOpen(false);
+              }}
+              className="hidden sm:flex bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-md shadow-indigo-600/20 items-center gap-2"
             >
-              Testa il Sistema <ArrowRight className="h-4 w-4" />
+              Testa Sistema <ArrowRight className="h-4 w-4" />
+            </button>
+
+            {/* Hamburger Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 border border-slate-800 transition"
+              aria-label="Toggle Menu"
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-lg px-4 py-4 space-y-2 animate-fadeIn">
+            {['overview', 'architecture', 'sandbox', 'multisite'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  activeTab === tab 
+                    ? 'bg-slate-800 text-emerald-400 border border-slate-700 shadow-inner' 
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900/50'
+                }`}
+              >
+                {tab === 'overview' ? "Visione d'Insieme" : tab === 'architecture' ? 'Architettura 4.0' : tab === 'sandbox' ? 'Simulatore Live' : 'Governance Multi-Sito'}
+              </button>
+            ))}
+            <div className="pt-4 border-t border-slate-900">
+              <button 
+                onClick={() => {
+                  setActiveTab('sandbox');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2"
+              >
+                Testa il Sistema <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main Container */}
