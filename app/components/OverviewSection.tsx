@@ -19,7 +19,7 @@ export function OverviewSection({ setActiveTab }: OverviewSectionProps) {
             L'evoluzione del controllo di fabbrica: sicuro, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">ibrido e multi-sito</span>.
           </h1>
           <p className="text-lg text-slate-400 leading-relaxed">
-            NexusMES unisce l'alta affidabilità della computazione locale (Edge) alla potenza analitica del Cloud Hub. Progettato per garantire la continuità dei processi industriali anche offline, con controlli di sicurezza fisici nativi e totale conformità ai requisiti dell'Industria 4.0.
+            MesIndustry unisce l'alta affidabilità della computazione locale (Edge) alla potenza analitica del Cloud Hub. Progettato per garantire la continuità dei processi industriali anche offline, con controlli di sicurezza fisici nativi e totale conformità ai requisiti dell'Industria 4.0.
           </p>
           <div className="flex flex-wrap gap-4 pt-4">
             <button
@@ -55,15 +55,7 @@ export function OverviewSection({ setActiveTab }: OverviewSectionProps) {
             </p>
           </div>
 
-          <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl hover:border-emerald-500/40 transition duration-300 space-y-4">
-            <div className="p-3 bg-emerald-500/10 rounded-xl w-fit">
-              <Lock className="h-6 w-6 text-emerald-400" />
-            </div>
-            <h3 className="text-lg font-bold text-white">Operational Lock Nativo</h3>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Nessun errore umano da remoto. Se la macchina è in stato **RUNNING**, qualsiasi tentativo di modifica parametri da remoto viene bloccato istantaneamente. La sicurezza fisica ha la priorità.
-            </p>
-          </div>
+
 
           <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl hover:border-amber-500/40 transition duration-300 space-y-4">
             <div className="p-3 bg-amber-500/10 rounded-xl w-fit">

@@ -192,11 +192,11 @@ export default function App() {
               <Cpu className="h-5 w-5 text-indigo-400" />
             </div>
             <div>
-              <span className="text-base font-bold text-white">NexusMES</span>
+              <span className="text-base font-bold text-white">MesIndustry</span>
               <p className="text-xs text-slate-500">Piattaforma di Controllo Industriale Integrata 4.0</p>
             </div>
           </div>
-          <p className="text-xs text-slate-600">&copy; 2026 NexusMES. Progetto di presentazione per esame finale.</p>
+          <p className="text-xs text-slate-600">&copy; 2026 MesIndustry. Progetto di presentazione per esame finale.</p>
         </div>
       </footer>
     </div>

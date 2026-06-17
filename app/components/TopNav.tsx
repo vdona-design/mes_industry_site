@@ -18,7 +18,7 @@ export function TopNav({ activeTab, setActiveTab, isMobileMenuOpen, setIsMobileM
           </div>
           <div>
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-              Nexus<span className="text-emerald-400 font-semibold">MES</span>
+              Mes<span className="text-emerald-400 font-semibold">Industry</span>
             </span>
             <p className="text-[10px] text-slate-500 tracking-wider uppercase font-mono">Ecosistema Industriale 4.0</p>
           </div>

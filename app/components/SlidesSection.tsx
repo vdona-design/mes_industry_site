@@ -58,9 +58,7 @@ export function SlidesSection({
           </div>
 
           <div className="space-y-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-900/40">
-              💡 {slides[currentSlide].analogy}
-            </span>
+
 
             <h3 className="text-3xl font-extrabold text-white tracking-tight">
               {slides[currentSlide].title}
