@@ -11,7 +11,7 @@ interface SlidesSectionProps {
   isSlideFullScreen: boolean;
   toggleSlideFullscreen: () => Promise<void>;
   handleSlideClick: (e: React.MouseEvent) => void;
-  slideRef: React.RefObject<HTMLDivElement>;
+  slideRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function SlidesSection({

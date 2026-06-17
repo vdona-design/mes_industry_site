@@ -19,6 +19,8 @@ export interface SlideItem {
   desc: string;
   points: string[];
   speech: string; // Copione colloquiale pronto per la presentazione a voce!
+  actionType?: string;
+  actionLabel?: string;
 }
 
 export const sitesData: Record<string, SiteInfo> = {
