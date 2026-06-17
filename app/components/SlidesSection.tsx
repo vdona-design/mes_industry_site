@@ -28,12 +28,7 @@ export function SlidesSection({
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
-          <h2 className="text-3xl font-extrabold text-white flex items-center gap-2">
-            <Presentation className="h-7 w-7 text-indigo-400" /> Supporto Visivo Esame 30 Minuti
-          </h2>
-          <p className="text-slate-400 text-sm mt-1">
-            Usa questa scheda come slide interattiva durante il colloquio. Spiega i concetti con le metafore a sinistra e mostra gli effetti sul codice a destra.
-          </p>
+
         </div>
       </div>
 
