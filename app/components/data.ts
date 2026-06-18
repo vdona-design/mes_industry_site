@@ -53,7 +53,7 @@ export const slides: SlideItem[] = [
     points: [
       "Unica infrastruttura software condivisa per abbattere i costi hardware complessivi.",
       "Isolamento blindato dei database per garantire la massima riservatezza industriale.",
-      "Token JWT nativi con i permessi e i siti abilitati scritti direttamente nel payload.",
+      "Token JWT nativi con i permessi alle sezioni e alle aziende visibili.",
       "Vincolo rigido 1:1 tra un singolo sito e il rispettivo Edge Gateway per evitare collisioni."
     ],
     speech: "Quando un'azienda ha più stabilimenti, sorge un problema: come gestirli senza spendere un patrimonio in server e senza rischiare che i dati si mescolino? Abbiamo usato un approccio Multi-Tenant. È come un condominio super protetto: l'edificio è lo stesso per risparmiare sui costi, ma ogni stabilimento ha le sue chiavi digitali. Tramite token di sicurezza crittografati, chi lavora a Milano non può assolutamente vedere o modificare quello che succede sulle linee di Bologna."
