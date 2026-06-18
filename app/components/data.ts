@@ -92,8 +92,7 @@ export const slides: SlideItem[] = [
       "Integrazione nativa con l'hardware tramite protocollo industriale standard OPC UA.",
       "Parsing e normalizzazione dei segnali fisici dei macchinari in strutture dati JSON pulite.",
       "Live Tag Validation: controllo continuo sui NodeID per intercettare subito sensori errati.",
-      "Edge Console: possibilità di agganciarsi al container in sviluppo per inviare comandi interattivi."
-    ],
+ ],
     speech: "I macchinari industriali parlano una lingua tutta loro, fatta di registri binari e protocolli complessi come l'OPC UA. La nostra applicazione web, invece, si aspetta del semplice testo in formato JSON. Per farli dialogare abbiamo sviluppato il MES Edge Gateway. Fa da interprete: traduce i dati della macchina in tempo reale per la dashboard e converte i nostri clic sullo schermo in comandi per il motore del macchinario. In più, controlla che i sensori siano configurati bene, segnalando subito se qualcosa non quadra."
   },
   {
