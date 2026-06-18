@@ -22,6 +22,7 @@ export interface SlideItem {
   actionType?: string;
   actionLabel?: string;
   image?: string; // Percorso dell'immagine opzionale
+  imageSizeClass?: string; // Classe Tailwind opzionale per dimensionare l'immagine
 }
 
 export const sitesData: Record<string, SiteInfo> = {
@@ -200,6 +201,7 @@ export const slides: SlideItem[] = [
     title: "14. Dietro le Quinte: Struttura ad Agenti e Workflow nel Vibecoding",
     desc: "Il Vibecoding non è una semplice chat sincrona, ma si basa su un'architettura a componenti specializzati (Agenti) guidati da flussi di lavoro (Workflow) rigidi. Ogni agente ha un ruolo verticale (es. esperto .NET 10, specialista Angular 21). Il workflow coordina le loro interazioni: un agente progetta le API, un secondo le implementa, un terzo scrive i test di carico e un supervisore valida il risultato finale prima del deployment.",
     image: '/slide14-workflow.jpg',
+    imageSizeClass: 'max-h-[260px] sm:max-h-[320px]',
     points: [
       "Suddivisione dei compiti tra agenti software verticali e specializzati (Agentic Architecture).",
       "Workflow strutturati con passaggi sequenziali di revisione del codice (Chain of Thought).",

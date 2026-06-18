@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type TouchEvent } from 'react';
 import { Cpu } from 'lucide-react';
 import { TopNav } from './components/TopNav';
 import { OverviewSection } from './components/OverviewSection';
@@ -94,7 +94,6 @@ export default function App() {
       if (document.fullscreenElement === slideRef.current) {
         await document.exitFullscreen();
       } else {
-        // @ts-ignore
         await slideRef.current.requestFullscreen();
       }
     } catch (err) {
@@ -102,7 +101,9 @@ export default function App() {
     }
   };
 
-  const handleSlideClick = (e: React.MouseEvent) => {
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleSlideClick = (e: MouseEvent<HTMLDivElement>) => {
     if (!isSlideFullScreen || !slideRef.current) return;
     const target = e.target as HTMLElement;
     if (target.closest('button') || target.closest('a')) return;
@@ -118,6 +119,25 @@ export default function App() {
         document.exitFullscreen().catch(() => {});
       }
     }
+  };
+
+  const handleSlideTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleSlideTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX === null || !slideRef.current) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+    const minSwipeDistance = 40;
+    if (Math.abs(deltaX) > minSwipeDistance) {
+      if (deltaX < 0) {
+        setCurrentSlide(p => Math.min(slides.length - 1, p + 1));
+      } else {
+        setCurrentSlide(p => Math.max(0, p - 1));
+      }
+    }
+    setTouchStartX(null);
   };
 
   useEffect(() => {
@@ -145,10 +165,10 @@ export default function App() {
     };
 
     document.addEventListener('fullscreenchange', onFsChange);
-    document.addEventListener('keydown', onKey as any);
+    document.addEventListener('keydown', onKey as unknown as EventListener);
     return () => {
       document.removeEventListener('fullscreenchange', onFsChange);
-      document.removeEventListener('keydown', onKey as any);
+      document.removeEventListener('keydown', onKey as unknown as EventListener);
     };
   }, [activeTab]);
 
@@ -173,6 +193,8 @@ export default function App() {
             isSlideFullScreen={isSlideFullScreen}
             toggleSlideFullscreen={toggleSlideFullscreen}
             handleSlideClick={handleSlideClick}
+            handleSlideTouchStart={handleSlideTouchStart}
+            handleSlideTouchEnd={handleSlideTouchEnd}
             slideRef={slideRef}
           />
         )}

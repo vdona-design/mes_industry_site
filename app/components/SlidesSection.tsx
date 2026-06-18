@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import type { MouseEvent, TouchEvent } from 'react';
 import { ArrowRight, ArrowLeft, Sliders, Presentation, Check } from 'lucide-react';
 import { SlideItem } from './data';
 
@@ -10,7 +10,9 @@ interface SlidesSectionProps {
   executeSlideAction: (type: string) => void;
   isSlideFullScreen: boolean;
   toggleSlideFullscreen: () => Promise<void>;
-  handleSlideClick: (e: React.MouseEvent) => void;
+  handleSlideClick: (e: MouseEvent<HTMLDivElement>) => void;
+  handleSlideTouchStart: (e: TouchEvent<HTMLDivElement>) => void;
+  handleSlideTouchEnd: (e: TouchEvent<HTMLDivElement>) => void;
   slideRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -22,6 +24,8 @@ export function SlidesSection({
   isSlideFullScreen,
   toggleSlideFullscreen,
   handleSlideClick,
+  handleSlideTouchStart,
+  handleSlideTouchEnd,
   slideRef
 }: SlidesSectionProps) {
   return (
@@ -36,9 +40,12 @@ export function SlidesSection({
         <div
           ref={slideRef}
           onClick={handleSlideClick}
+          onTouchStart={handleSlideTouchStart}
+          onTouchEnd={handleSlideTouchEnd}
           className={`flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-8 shadow-xl relative min-h-[460px] ${
-            isSlideFullScreen ? 'cursor-pointer' : ''
+            isSlideFullScreen ? 'cursor-pointer overflow-auto max-h-[calc(100vh-3rem)]' : ''
           }`}
+          style={{ touchAction: isSlideFullScreen ? 'pan-y' : 'auto' }}
         >
           <div className="absolute top-4 right-6 flex items-center gap-3">
             <div className="text-xs text-slate-600 font-mono font-bold">SLIDE {currentSlide + 1} / {slides.length}</div>
@@ -77,7 +84,7 @@ export function SlidesSection({
                 <img
                   src={slides[currentSlide].image}
                   alt={slides[currentSlide].title}
-                  className="w-full h-auto object-contain"
+                  className={`w-full h-auto object-contain ${slides[currentSlide].imageSizeClass ?? 'max-h-[420px]'}`}
                 />
               </div>
             )}
