@@ -173,7 +173,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Tenere gli attrezzi di oggi sul banco di lavoro e spostare i vecchi scatoloni in soffitta.",
     title: "12. Persistenza Ibrida: Strategia di Log",
-    desc: "Il monitoraggio continuo produce milioni di record che rischiano di appesantire il database. Abbiamo implementato un servizio denominato 'TelemetryCleanupWorker'. Questo esegue query per purgare i dati storici oltre una data configurabile.",
+    desc: "Il monitoraggio continuo produce milioni di record che rischiano di appesantire il database. Abbiamo implementato un servizio che elimina i dati storici oltre una data configurabile.",
     points: [
       "Esecuzione pianificata del worker negli orari morti (es. a mezzanotte) per non pesare sulla rete.",
       "Cancellazione ad alte prestazioni lato server tramite ExecuteDeleteAsync per azzerare l'uso di memoria.",
