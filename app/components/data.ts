@@ -36,7 +36,7 @@ export const slides: SlideItem[] = [
     analogy: "Il passaggio dalla vecchia mappa di carta stradale al navigatore satellitare in tempo reale.",
     title: "1. L'obiettivo del Progetto: Monitoraggio e Controllo in ottica 4.0",
     desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai macchinari sia l'invio delle configurazioni software, abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
-    image: './image_project.png',
+    image: '/image_project.png',
     points: [
       "Addio ai fogli di carta: digitalizzazione totale delle schede operative (Paperless Architecture).",
       "Integrazione bidirezionale per soddisfare i requisiti dell'Industria 4.0.",
