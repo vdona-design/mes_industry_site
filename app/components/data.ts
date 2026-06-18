@@ -199,6 +199,7 @@ export const slides: SlideItem[] = [
     analogy: "Un'agenzia di spedizioni dove ogni reparto (accettazione, logistica, dogana) ha un compito specifico e si scambia documenti standardizzati.",
     title: "14. Dietro le Quinte: Struttura ad Agenti e Workflow nel Vibecoding",
     desc: "Il Vibecoding non è una semplice chat sincrona, ma si basa su un'architettura a componenti specializzati (Agenti) guidati da flussi di lavoro (Workflow) rigidi. Ogni agente ha un ruolo verticale (es. esperto .NET 10, specialista Angular 21). Il workflow coordina le loro interazioni: un agente progetta le API, un secondo le implementa, un terzo scrive i test di carico e un supervisore valida il risultato finale prima del deployment.",
+    image: '/slide14-workflow.jpg',
     points: [
       "Suddivisione dei compiti tra agenti software verticali e specializzati (Agentic Architecture).",
       "Workflow strutturati con passaggi sequenziali di revisione del codice (Chain of Thought).",
