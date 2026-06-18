@@ -36,7 +36,7 @@ export function SlidesSection({
         <div
           ref={slideRef}
           onClick={handleSlideClick}
-          className={`lg:col-span-full flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-8 shadow-xl relative min-h-[460px] ${
+          className={`${slides[currentSlide].image ? 'lg:col-span-2' : 'lg:col-span-full'} flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-8 shadow-xl relative min-h-[460px] ${
             isSlideFullScreen ? 'cursor-pointer' : ''
           }`}
         >
@@ -104,7 +104,15 @@ export function SlidesSection({
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-slate-900/30 border border-slate-800 rounded-2xl overflow-hidden"></div>
+        {slides[currentSlide].image && (
+          <div className="lg:col-span-1 bg-slate-900/30 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center">
+            <img
+              src={slides[currentSlide].image}
+              alt={slides[currentSlide].title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

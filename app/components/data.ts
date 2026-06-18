@@ -21,6 +21,7 @@ export interface SlideItem {
   speech: string; // Copione colloquiale pronto per la presentazione a voce!
   actionType?: string;
   actionLabel?: string;
+  image?: string; // Percorso dell'immagine opzionale
 }
 
 export const sitesData: Record<string, SiteInfo> = {
@@ -35,6 +36,7 @@ export const slides: SlideItem[] = [
     analogy: "Il passaggio dalla vecchia mappa di carta stradale al navigatore satellitare in tempo reale.",
     title: "1. L'obiettivo del Progetto: Monitoraggio e Controllo in ottica 4.0",
     desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai macchinari sia l'invio delle configurazioni software, abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
+    image: './image_project.png',
     points: [
       "Addio ai fogli di carta: digitalizzazione totale delle schede operative (Paperless Architecture).",
       "Integrazione bidirezionale per soddisfare i requisiti dell'Industria 4.0.",
@@ -96,12 +98,10 @@ export const slides: SlideItem[] = [
   {
     analogy: "Una scrivania con un cassetto per i documenti importanti e uno per gli scontrini quotidiani.",
     title: "6. Struttura del Database: Anagrafiche e Log Transazionali",
-    desc: "La persistenza si basa su PostgreSQL 17. Le 'Anagrafiche' gestiscono i dati stabili come l'albero delle linee, gli utenti e i tenant. Le 'Transazioni' accolgono il flusso continuo della telemetria dei macchinari, sfruttando colonne JSONB ottimizzate per non rallentare le query.",
+    desc: "La persistenza si basa su PostgreSQL 17. Le 'Anagrafiche' gestiscono i dati stabili come linee, gli utenti e i tenant. Le 'Transazioni' accolgono il flusso continuo della telemetria dei macchinari, sfruttando colonne JSONB ottimizzate per non rallentare le query.",
     points: [
       "Database relazionale robusto con PostgreSQL 17 integrato nello stack Docker.",
       "Campi JSONB per salvare parametri macchina variabili senza cambiare schema.",
-      "Inizializzazione intelligente: reset distruttivo automatico in sviluppo e migrazioni sicure in produzione.",
-      "Separazione dei carichi di lavoro per garantire grafici e report veloci anche sotto stress di scrittura."
     ],
     speech: "Una fabbrica produce una quantità enorme di dati ogni secondo. Se salvassimo tutto nello stesso modo, il database esploderebbe in pochi giorni. Abbiamo usato PostgreSQL 17 dividendo i dati in due cassetti. Nel primo mettiamo le cose importanti che cambiano raramente, come i nomi delle macchine e gli utenti. Nel secondo buttiamo il flusso continuo dei sensori. Per farlo in modo efficiente usiamo i campi JSONB: ci permettono di salvare dati diversi per ogni macchina senza rallentare il sistema e garantendo prestazioni altissime."
   },
@@ -111,7 +111,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Un computer che invia le istruzioni di stampa direttamente a una stampante di rete.",
     title: "7. Il Flusso di Controllo: Invio Remoto delle Ricette",
-    desc: "Non ci limitiamo a leggere i dati, ma comandiamo le linee. Dall'applicazione web, un utente autorizzato può selezionare una 'Ricetta' (i parametri tecnici di lavorazione) e inviarla direttamente alla memoria del macchinari tramite l'Edge Gateway , configurando il comportamento della macchina da remoto.",
+    desc: " Dall'applicazione web, un utente autorizzato può selezionare una 'Prodotto' e inviarla direttamente ai macchinari le ricette da eseguire, configurando il comportamento della macchina da remoto.",
     points: [
       "Repository centralizzato delle configurazioni e ricette tecniche nel database cloud.",
       "Iniezione diretta dei parametri nei registri del macchinari senza programmazione manuale a bordo macchina.",
