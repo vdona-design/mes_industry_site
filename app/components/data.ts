@@ -35,7 +35,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Il passaggio dalla vecchia mappa di carta stradale al navigatore satellitare in tempo reale.",
     title: "1. L'obiettivo del Progetto: Monitoraggio e Controllo in ottica 4.0",
-    desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai macchinari sia l'invio delle configurazioni software, abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
+    desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai macchinari sia l'invio delle configurazioni , abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
     image: '/image_project.png',
     points: [
       "Addio ai fogli di carta: digitalizzazione totale delle schede operative (Paperless Architecture).",
@@ -48,7 +48,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Un condominio blindato dove ognuno ha le chiavi solo ed esclusivamente del proprio appartamento.",
     title: "2. La Governance Multi-Sito: Isolamento logico dei Tenant",
-    desc: "Il sistema gestisce più stabilimenti industriali usando un'unica infrastruttura centrale, ma isolando i dati in modo rigido attraverso un approccio Multi-Tenant. Ogni sito è un ecosistema indipendente: le linee, i log e le configurazioni del Sito A sono invisibili e inaccessibili per gli utenti del Sito B.",
+    desc: "Il sistema gestisce più stabilimenti industriali e aziende usando un'unica infrastruttura centrale, ma isolando i dati in modo rigido attraverso un approccio Multi-Tenant. Ogni sito è un ecosistema indipendente: le linee, i log e le configurazioni del Sito A sono invisibili e inaccessibili per gli utenti del Sito B.",
     points: [
       "Unica infrastruttura software condivisa per abbattere i costi hardware complessivi.",
       "Isolamento blindato dei database per garantire la massima riservatezza industriale.",
