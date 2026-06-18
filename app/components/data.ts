@@ -111,7 +111,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Un computer che invia le istruzioni di stampa direttamente a una stampante di rete.",
     title: "7. Il Flusso di Controllo: Invio Remoto delle Ricette",
-    desc: " Dall'applicazione web, un utente autorizzato può selezionare una 'Prodotto' e inviarla direttamente ai macchinari le ricette da eseguire, configurando il comportamento della macchina da remoto.",
+    desc: " Dall'applicazione web, un utente autorizzato può selezionare una 'Prodotto' e inviarla direttamente ai macchinari della linea le ricette da eseguire.",
     points: [
       "Repository centralizzato delle configurazioni e ricette tecniche nel database cloud.",
       "Iniezione diretta dei parametri nei registri del macchinari senza programmazione manuale a bordo macchina.",
@@ -149,7 +149,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Il blocco per appunti d'emergenza usato quando salta la corrente temporaneamente in ufficio.",
     title: "10. Resilienza Edge: Continuità logica in assenza di Rete",
-    desc: "La robustezza dell'architettura si basa sull'Edge Computing. Se la rete esterna salta e il cloud diventa irraggiungibile, il modulo locale MES Edge Gateway (operante sulla rete LAN di stabilimento) isola la sessione ma non interrompe il monitoraggio, salvando la telemetria in un database aziendale protetto.",
+    desc: "La robustezza dell'architettura si basa sull'Edge Computing. Se la rete esterna salta e il cloud diventa irraggiungibile, il modulo locale MES Edge Gateway (operante sulla rete LAN dell'azienda) isola la sessione ma non interrompe il monitoraggio, salvando la telemetria in un database aziendale protetto.",
     points: [
       "Decentramento dei processi di acquisizione (Edge Computing) vicini agli impianti fisici.",
       "Mantenimento attivo delle routine di acquisizione dati direttamente sulla rete aziendale.",
