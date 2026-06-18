@@ -176,7 +176,6 @@ export const slides: SlideItem[] = [
     desc: "Il monitoraggio continuo produce milioni di record che rischiano di appesantire il database. Abbiamo implementato un servizio che elimina i dati storici oltre una data configurabile.",
     points: [
       "Esecuzione pianificata del worker negli orari morti (es. a mezzanotte) per non pesare sulla rete.",
-      "Cancellazione ad alte prestazioni lato server tramite ExecuteDeleteAsync per azzerare l'uso di memoria.",
       "Retention dei log configurabile tramite appsettings.json (di default impostata a 7 giorni).",
       "Mantenimento costante della reattività e velocità di caricamento delle dashboard web."
     ],
