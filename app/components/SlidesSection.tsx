@@ -71,6 +71,16 @@ export function SlidesSection({
                 </li>
               ))}
             </ul>
+
+            {slides[currentSlide].image && (
+              <div className="bg-slate-800/40 border border-slate-700 rounded-xl overflow-hidden flex items-center justify-center mt-6">
+                <img
+                  src={slides[currentSlide].image}
+                  alt={slides[currentSlide].title}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            )}
           </div>
 
           <div className="mt-8 pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -103,16 +113,6 @@ export function SlidesSection({
             </div>
           </div>
         </div>
-
-        {slides[currentSlide].image && (
-          <div className="bg-slate-900/30 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center max-h-[400px]">
-            <img
-              src={slides[currentSlide].image}
-              alt={slides[currentSlide].title}
-              className="w-full h-full object-contain"
-            />
-          </div>
-        )}
       </div>
     </div>
   );
