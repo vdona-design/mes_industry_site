@@ -38,7 +38,7 @@ export const slides: SlideItem[] = [
     points: [
       "Addio ai fogli di carta: digitalizzazione totale delle schede operative (Paperless Architecture).",
       "Integrazione bidirezionale per soddisfare i requisiti dell'Industria 4.0.",
-      "Raccolta automatica dei dati di produzione e tracciamento dei KPI in tempo reale.",
+      "Raccolta automatica dei dati di produzione e tracciamento dei KPI (acronimo di Key Performance Indicator, in italiano Indicatore Chiave di Prestazione indica l'efficacia con cui un'azienda).",
       "Predisposizione all'invio remoto dei parametri alle linee (Recipe Deployment)."
     ],
     speech: "Immaginate di dover guidare un'azienda usando una vecchia mappa stradale di carta: è quello che succede quando si gestisce una fabbrica con i moduli cartacei. Con MesIndustry abbiamo creato un vero e proprio navigatore satellitare per la produzione. Eliminiamo i fogli di carta e colleghiamo direttamente i gestionali alle macchine. Questo significa due cose: primo, vediamo in tempo reale cosa succede sulle linee; secondo, possiamo mandare le istruzioni di lavoro direttamente ai PC di bordo senza che un operatore debba farlo a mano."
@@ -71,8 +71,8 @@ export const slides: SlideItem[] = [
   // --- PARTE 2: L'ARCHITETTURA DELLE INFORMAZIONI E IL ROUTING DEI DATI ---
   {
     analogy: "Il portinaio di un palazzo che controlla i documenti e smista i visitatori all'ingresso.",
-    title: "4. L'API Gateway con Nginx: Regolazione del Traffico Dati",
-    desc: "Nessun client o macchinario parla direttamente con lo strato dati sensibile. Tutto il traffico attraversa Nginx configurato come Reverse Proxy e API Gateway . Questo componente valida l'identità digitale del mittente, smista le richieste verso il backend o il frontend e azzera i problemi di CORS.",
+    title: "4.Regolazione del Traffico Dati",
+    desc: "Nessun browser o macchinario parla direttamente con lo strato di dati sensibile. Tutto il traffico attraversa Nginx configurato come Reverse Proxy e API Gateway . Questo componente valida l'identità digitale del mittente, smista le richieste verso il backend o il frontend e azzera i problemi di CORS(Cross-Origin Resource Sharing).",
     points: [
       "Punto di ingresso unico per tutto il traffico web e industriale.",
       "Validazione immediata dei token (JWT Authentication & Authorization) ad ogni richiesta.",
