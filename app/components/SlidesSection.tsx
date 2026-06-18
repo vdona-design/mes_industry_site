@@ -32,11 +32,11 @@ export function SlidesSection({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="flex flex-col gap-8">
         <div
           ref={slideRef}
           onClick={handleSlideClick}
-          className={`${slides[currentSlide].image ? 'lg:col-span-2' : 'lg:col-span-full'} flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-8 shadow-xl relative min-h-[460px] ${
+          className={`flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-8 shadow-xl relative min-h-[460px] ${
             isSlideFullScreen ? 'cursor-pointer' : ''
           }`}
         >
@@ -105,11 +105,11 @@ export function SlidesSection({
         </div>
 
         {slides[currentSlide].image && (
-          <div className="lg:col-span-1 bg-slate-900/30 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center">
+          <div className="bg-slate-900/30 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center max-h-[400px]">
             <img
               src={slides[currentSlide].image}
               alt={slides[currentSlide].title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
         )}
