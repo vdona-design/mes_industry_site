@@ -159,7 +159,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Prendere gli appunti presi al volo sul blocco note e ricopiarli con calma sul registro ufficiale.",
     title: "11. Lo Smart Sync: Riallineamento Post-Riconnessione",
-    desc: "Al ripristino del collegamento, il modulo 'Smart Sync' gestisce la riconciliazione automatica. Rileva il ritorno online, riapre i canali SignalR e avvia un upload asincrono in background: preleva i record dal database aziendale , li organizza in pacchetti ottimizzati e li invia al cloud applicando un controllo di idempotenza.",
+    desc: "Al ripristino del collegamento, il modulo 'Smart Sync' gestisce la riconciliazione automatica. Rileva il ritorno online, riapre i canali SignalR e avvia un upload asincrono in background: preleva i record dal database aziendale , li organizza in pacchetti ottimizzati e li invia al cloud.",
     points: [
       "Riconoscimento automatico del ripristino del collegamento di rete verso il cloud.",
       "Sincronizzazione asincrona e in background tramite pacchetti ottimizzati (Batch Upload).",
