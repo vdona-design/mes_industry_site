@@ -59,10 +59,10 @@ export const slides: SlideItem[] = [
   },
   {
     analogy: "Il direttore generale con il passpartout per controllare tutte le stanze dell'hotel.",
-    title: "3. La Vista del Supervisore: Monitoraggio aggregato dei Sistemi",
-    desc: "Se i pannelli locali mostrano solo le linee del singolo stabilimento, il livello 'Supervisore' offre una cabina di regia globale. Permette al management di monitorare l'efficienza complessiva (OEE), confrontare le performance di tutti i nodi della rete geografica e individuare al volo i colli di bottiglia.",
+    title: "3. Gestione dei Ruoli",
+    desc: "Il livello di utente 'Manager' offre una cabina di regia globale. Permette al management di monitorare l'efficienza complessiva (OEE), confrontare le performance di tutti i nodi della rete geografica e individuare al volo i colli di bottiglia.",
     points: [
-      "Accesso con privilegi elevati (Super-Admin) per la supervisione globale di tutti i nodi.",
+      "Accesso con privilegi elevati (Manager) per la supervisione globale di tutti i nodi.",
       "Schermata di controllo centralizzata con metriche e KPI aggregati in un unico cruscotto.",
       "Confronto analitico delle prestazioni tra impianti gemelli dislocati in siti diversi.",
       "Individuazione immediata di anomalie di rete, cali di cadenza o blocchi diffusi."
