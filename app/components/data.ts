@@ -34,7 +34,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Il passaggio dalla vecchia mappa di carta stradale al navigatore satellitare in tempo reale.",
     title: "1. L'obiettivo del Progetto: Monitoraggio e Controllo in ottica 4.0",
-    desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai PLC sia l'invio delle configurazioni software, abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
+    desc: "MesIndustry nasce per connettere i sistemi gestionali ai macchinari di produzione senza ritardi. Sostituiamo i vecchi moduli cartacei con dashboard digitali in tempo reale che gestiscono sia i dati in uscita dai macchinari sia l'invio delle configurazioni software, abilitando un controllo bidirezionale e una reattività immediata su tutto lo stabilimento.",
     points: [
       "Addio ai fogli di carta: digitalizzazione totale delle schede operative (Paperless Architecture).",
       "Integrazione bidirezionale per soddisfare i requisiti dell'Industria 4.0.",
@@ -83,11 +83,11 @@ export const slides: SlideItem[] = [
   },
   {
     analogy: "Un interprete che traduce i dialetti stretti in un italiano chiaro e standard.",
-    title: "5. Il MES Edge Gateway: Ingestione Dati e Dialogo con i PLC",
-    desc: "Il modulo gestisce l'integrazione hardware parlando il protocollo industriale OPC UA. Prende i flussi di dati binari dai PLC, li traduce in oggetti JSON standardizzati per il cloud e, nel percorso inverso, converte i comandi web in impulsi elettronici per le macchine.",
+    title: "5. Il MES Edge Gateway: Ingestione Dati e Dialogo con i macchinari",
+    desc: "Il modulo gestisce l'integrazione hardware parlando il protocollo industriale OPC UA. Prende i flussi di dati binari dai macchinari, li traduce in oggetti JSON standardizzati per il cloud e, nel percorso inverso, converte i comandi web in impulsi elettronici per le macchine.",
     points: [
       "Integrazione nativa con l'hardware tramite protocollo industriale standard OPC UA.",
-      "Parsing e normalizzazione dei segnali fisici dei PLC in strutture dati JSON pulite.",
+      "Parsing e normalizzazione dei segnali fisici dei macchinari in strutture dati JSON pulite.",
       "Live Tag Validation: controllo continuo sui NodeID per intercettare subito sensori errati.",
       "Edge Console: possibilità di agganciarsi al container in sviluppo per inviare comandi interattivi."
     ],
@@ -96,7 +96,7 @@ export const slides: SlideItem[] = [
   {
     analogy: "Una scrivania con un cassetto per i documenti importanti e uno per gli scontrini quotidiani.",
     title: "6. Struttura del Database: Anagrafiche e Log Transazionali",
-    desc: "La persistenza si basa su PostgreSQL 17. Le 'Anagrafiche' gestiscono i dati stabili come l'albero delle linee, gli utenti e i tenant. Le 'Transazioni' accolgono il flusso continuo della telemetria dei PLC, sfruttando colonne JSONB ottimizzate per non rallentare le query.",
+    desc: "La persistenza si basa su PostgreSQL 17. Le 'Anagrafiche' gestiscono i dati stabili come l'albero delle linee, gli utenti e i tenant. Le 'Transazioni' accolgono il flusso continuo della telemetria dei macchinari, sfruttando colonne JSONB ottimizzate per non rallentare le query.",
     points: [
       "Database relazionale robusto con PostgreSQL 17 integrato nello stack Docker.",
       "Campi JSONB per salvare parametri macchina variabili senza cambiare schema.",
@@ -111,14 +111,14 @@ export const slides: SlideItem[] = [
   {
     analogy: "Un computer che invia le istruzioni di stampa direttamente a una stampante di rete.",
     title: "7. Il Flusso di Controllo: Invio Remoto delle Ricette",
-    desc: "Non ci limitiamo a leggere i dati, ma comandiamo le linee. Dall'applicazione web, un utente autorizzato può selezionare una 'Ricetta' (i parametri tecnici di lavorazione) e inviarla direttamente alla memoria del PLC tramite l'Edge Gateway , configurando il comportamento della macchina da remoto.",
+    desc: "Non ci limitiamo a leggere i dati, ma comandiamo le linee. Dall'applicazione web, un utente autorizzato può selezionare una 'Ricetta' (i parametri tecnici di lavorazione) e inviarla direttamente alla memoria del macchinari tramite l'Edge Gateway , configurando il comportamento della macchina da remoto.",
     points: [
       "Repository centralizzato delle configurazioni e ricette tecniche nel database cloud.",
-      "Iniezione diretta dei parametri nei registri del PLC senza programmazione manuale a bordo macchina.",
+      "Iniezione diretta dei parametri nei registri del macchinari senza programmazione manuale a bordo macchina.",
       "Deep Configuration Sync: se cambiano i parametri lato API, l'edge gateway si reinizializza all'istante.",
       "Abbattimento drastico dei tempi di fermo macchina durante il cambio formato o prodotto."
     ],
-    speech: "Questa è una delle parti più potenti del sistema: il controllo bidirezionale. Immaginate di dover cambiare la produzione da 'Bottiglie da 1 litro' a 'Bottiglie da mezzo litro'. Tradizionalmente, un operatore deve andare sulla console di ogni macchina e digitare a mano decine di parametri. Con il nostro software, basta selezionare la nuova ricetta dal cruscotto web e cliccare 'Invia'. I dati viaggiano via API, l'Edge Gateway scrive sul PLC e la macchina si riconfigura da sola in un secondo."
+    speech: "Questa è una delle parti più potenti del sistema: il controllo bidirezionale. Immaginate di dover cambiare la produzione da 'Bottiglie da 1 litro' a 'Bottiglie da mezzo litro'. Tradizionalmente, un operatore deve andare sulla console di ogni macchina e digitare a mano decine di parametri. Con il nostro software, basta selezionare la nuova ricetta dal cruscotto web e cliccare 'Invia'. I dati viaggiano via API, l'Edge Gateway scrive sul macchinari e la macchina si riconfigura da sola in un secondo."
   },
 
   // --- PARTE 4: TEMPO REALE E STRATO DI RETE CON SIGNALR ---
@@ -154,7 +154,7 @@ export const slides: SlideItem[] = [
       "Decentramento dei processi di acquisizione (Edge Computing) vicini agli impianti fisici.",
       "Mantenimento attivo delle routine di acquisizione dati direttamente sulla rete aziendale.",
     ],
-    speech: "Se internet si interrompe, la fabbrica deve continuare a produrre. Grazie all'Edge Computing, il nostro gateway posizionato fisicamente in stabilimento continua a lavorare anche se è completamente isolato dal server cloud centrale. Continua a parlare con i PLC, raccoglie i dati dei pezzi e li mette al sicuro in un database aziendale. Zero perdite di dati, totale continuità operativa."
+    speech: "Se internet si interrompe, la fabbrica deve continuare a produrre. Grazie all'Edge Computing, il nostro gateway posizionato fisicamente in stabilimento continua a lavorare anche se è completamente isolato dal server cloud centrale. Continua a parlare con i macchinari, raccoglie i dati dei pezzi e li mette al sicuro in un database aziendale. Zero perdite di dati, totale continuità operativa."
   },
   {
     analogy: "Prendere gli appunti presi al volo sul blocco note e ricopiarli con calma sul registro ufficiale.",
@@ -210,13 +210,13 @@ export const slides: SlideItem[] = [
   {
     analogy: "I progetti di espansione per una ferrovia che estende i propri binari verso nuove mete.",
     title: "15. Stato dello Sviluppo, Nuove Features e Conclusioni",
-    desc: "L'architettura MesIndustry ha validato con successo lo scambio dati bidirezionale sicuro tra interfacce web e PLC industriali su base .NET 10 e Angular 21. Con le fondamenta di monitoraggio e controllo ormai consolidate, lo sviluppo si sta concentrando sul tracciamento avanzato delle commesse e sull'ottimizzazione dei flussi di linea.",
+    desc: "L'architettura MesIndustry ha validato con successo lo scambio dati bidirezionale sicuro tra interfacce web e macchinari industriali su base .NET 10 e Angular 21. Con le fondamenta di monitoraggio e controllo ormai consolidate, lo sviluppo si sta concentrando sul tracciamento avanzato delle commesse e sull'ottimizzazione dei flussi di linea.",
     points: [
       "Validazione sul campo dei pattern scelti (Clean Architecture e approccio Multi-Tenant).",
       "Global Frontend Error Logging: un LogService intercetta i crash del browser e li salva nel DB centrale.",
       "Stabilità verificata dei canali realtime SignalR e della logica Edge di stabilimento.",
       "Studio di moduli futuri dedicati all'efficienza energetica e alla manutenzione predittiva degli impianti."
     ],
-    speech: "Per concludere: dove siamo arrivati? Abbiamo sviluppato e validato un'architettura solida, moderna e reattiva. I test confermano che il dialogo bidirezionale tra il web e i PLC industriali funziona egregiamente ed è sicuro. Inoltre abbiamo inserito un sistema che cattura gli errori del browser e li salva a database per facilitare la manutenzione. Ora che le fondamenta sono stabili, ci stiamo focalizzando sul tracciamento avanzato delle commesse e sulla produzione, pronti a estendere il sistema con moduli di manutenzione predittiva. Grazie per l'attenzione!"
+    speech: "Per concludere: dove siamo arrivati? Abbiamo sviluppato e validato un'architettura solida, moderna e reattiva. I test confermano che il dialogo bidirezionale tra il web e i macchinari industriali funziona egregiamente ed è sicuro. Inoltre abbiamo inserito un sistema che cattura gli errori del browser e li salva a database per facilitare la manutenzione. Ora che le fondamenta sono stabili, ci stiamo focalizzando sul tracciamento avanzato delle commesse e sulla produzione, pronti a estendere il sistema con moduli di manutenzione predittiva. Grazie per l'attenzione!"
   }
 ];
